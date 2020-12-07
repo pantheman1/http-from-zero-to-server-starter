@@ -37,7 +37,13 @@ http.createServer(function(req, res) {
         console.log('Request unauthorized')
         res.writeHead(401);
         res.end();
-    } else {
+    } else if (req.url === '/Bonus/Redirect') {
+        res.writeHead(302, { 'location': 'http://localhost:3000/Forbidden'})
+        res.end();
+    } else if (req.url === '/Bonus/Webpage') {
+        
+    }
+    else {
         res.writeHead(404);
         console.log('Status code: 404');
         res.end();
