@@ -1,5 +1,4 @@
 const http = require('http');
-console.log('hi');
 
 http.createServer(function(req, res) {
     if (req.url === '/OK') {
@@ -20,7 +19,7 @@ http.createServer(function(req, res) {
         res.end();
     } else if (req.url === '/Found') {
         console.log('Request redirected. 302 Found.');
-        res.writeHead(302);
+        res.writeHead(302, { 'Location': 'http://localhost:3000/Found' + });
         res.end();
     } else if (req.url === '/Gateway-Timeout') {
         console.log('Server error. 504 Gateway-Timeout');
