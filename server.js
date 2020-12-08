@@ -1,6 +1,8 @@
 const http = require('http');
 
 http.createServer(function(req, res) {
+
+
     if (req.url === '/OK') {
         console.log('Inbound "OK" request being processed...')
         res.writeHead(200);
@@ -10,16 +12,23 @@ http.createServer(function(req, res) {
         res.writeHead(400);
         res.end();
     } else if (req.url === '/Created') {
-        console.log('Request has been successfully created');
-        res.writeHead(201);
-        res.end();
+        if (req.method === 'POST') {
+            console.log('Request has been successfully created');
+            res.writeHead(201);
+            res.end();
+        } else {
+            console.log('405 Method Not Allowed');
+            res.writeHead(405);
+            res.end();
+        }
+
     } else if (req.url === '/Forbidden') {
         console.log('Request is forbidden. Error 403.')
         res.writeHead(403)
         res.end();
     } else if (req.url === '/Found') {
         console.log('Request redirected. 302 Found.');
-        res.writeHead(302, { 'Location': 'http://localhost:3000/Found' + });
+        res.writeHead(302);
         res.end();
     } else if (req.url === '/Gateway-Timeout') {
         console.log('Server error. 504 Gateway-Timeout');
@@ -38,11 +47,13 @@ http.createServer(function(req, res) {
         res.writeHead(401);
         res.end();
     } else if (req.url === '/Bonus/Redirect') {
-        res.writeHead(302, { 'location': 'http://localhost:3000/Forbidden'})
-        res.end();
+        res.writeHead(302, {'location': 'http://localhost:3000/Forbidden'});
+        res.end()
     } else if (req.url === '/Bonus/Webpage') {
-        
+        res.write('<h1>html</h1>');
+        res.end();
     }
+
     else {
         res.writeHead(404);
         console.log('Status code: 404');
